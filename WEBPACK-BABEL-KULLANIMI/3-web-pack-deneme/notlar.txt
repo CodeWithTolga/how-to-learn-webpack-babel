@@ -1,0 +1,70 @@
+//==== NOTLAR 
+
+1 = eğer ki bir bundle.js oluşturulmadıysa  bunun nedeni package.json>scripts kısmındaki "dev" veya "build" çalıştırılmadan
+    başlatılmasıdır unutma! çünkü bunlardan biriyle terminalde başlatılması ardında da bundle.js oluşturması olur!
+
+2 = eğer ki "npm install webpack-dev-server --save-dev" dediysen bu bir canlı webpack server kullanımıdır bunu yükledikten sonra
+    webpack.config.js
+
+    module.exports = { bunu dışarıda kullanmak için
+        devServer:{ =>çalışması için 
+            static: "./dist" => çalıştırılacak klasör ismin yeri
+        }
+    }
+
+3 = eğer ki "npm install webpack-plugin" indirdikten sonra webpack.config.js kısmında 
+   plugins: [
+        new HtmlWebpackPlugin({
+              filename: "deneme.html",
+              template: "./src/index.html"
+        })
+    ]
+    = yukardaki yerde bir html dosyası oluşturma için kullanılır yani filename: "oluşturulacak dosya ismi" yeridir
+      burada eğer ki direkt olarak package.json>scripts içersindeki "npm run start" dersen bu çalışmaz belki de hata verir 
+      o yüzden package.json>scripts içersindeki yerden gelen "dev" veya "build" kısmıyla çalıştırmak gerekir çünkü 
+      filenamede belirtilen dosya ismi hemen oluşturulmaya başlayacaktır.
+
+    Not => eğer ki "new HtmlWebpackPlugin({})" dersen ve "npm run start" diye çalıştırırsan çalışır.
+
+
+4 = css dosyalarını src/style.css kısmında oluşturulan dosyayı  dist/css altına oluşturma işlemi
+
+    1.adım = css paketleri yükleme 
+    -> "npm install mini-css-extract-plugin"
+    -> "npm install css-loader --save-dev"
+
+    2.adım = webpack.config.js de ayarlama 
+    const MiniCssExtractPlugin = require("mini-css-extract-plugin"); -> eğer plugins de direkt olarak çağırırsan otomatik buraya gelir.
+    module.exports = {
+        plugins: {
+           new MiniCssExtractPlugin({
+              filename:"./css/style.css"//oluşturulacak dosya yolu 
+           })
+        },
+        module:{
+            rules:[
+               {
+                  test:/\.css$/i,
+                  use:[
+                      MiniCssExtractPlugin.loader,//CSS dosyalarını dışa aktarmak için MiniCssExtractPlugin kullan
+                      "css-loader"// CSS dosyalarını işlemek için css-loader kullan
+                   ]
+               }
+            ]
+        }
+    }
+
+    3.adım = src/js/index.js kısmına css'i import etme 
+      = src/js/index.js kısmıan geliyoruz [import "../style.css";] import ediyoruz 
+
+    4.adım = npm run "dev" veya "build" diyoruz dist altında otomatik olarak css/style.css klasör ver dosya uzantısı oluşuyor
+             peki nasıl?
+             -> new MiniCssExtractPlugin({
+                   filename:"./css/style.css" //burada css/style.css dediğimiz için
+                }) 
+        
+    5.adım = npm run start diyerek artık server çalıştırıyoruz
+
+    not = ayrıca aklında bulunsun src altında css/style.css oluşturulduktan sonra da eğer ki dist klasör altında 
+          bir "deneme.html" uzantılı dosya varsa link olarak dist içersine oluşturulan css dosyasını <link> etiketi
+          oalrak çağırma işlemi yapar.

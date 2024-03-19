@@ -1,0 +1,39 @@
+//======= package.json > scripts 
+
+  scripts kısmında 
+  "scripts": {
+    "dev": "webpack --mode development", => bunun amacı projeyi geliştirme aşamasıdır paket sıkıştırmaz
+    "build": "webpack --mode production" => bunun amacı projeyi yayınlama aşamasıdır paket sıkıştırır
+  },
+  = scripts içersindeki dev, ve build kısımları webpack.config.js dosyası içersinde de yazılabilir böylece
+    yukarda sadece webpack yazılı olarak kalır
+   mode: {
+     dev: "development",
+     build: "production"
+   }
+
+// ======= webpack.config.js 
+
+ module.exports = { //dışarı açma işlemidir
+  entry: "/src/js/script.js", yazılacak kod yerini "dosya yolu ve ismi" ile yazılır buraya yazılır
+  output: {//çıktısı
+    path:path.resolve(__dirname, "dist"),//dist klasör altındaki  
+    filename: "js/bundle.js"//bundle.js dosyasını oluşturur
+  },
+}
+
+
+//======== NOTLAR
+
+1 = dist> altında index.html oluşturulduysa eğer ki o zaman webpack.config.js de 
+    output> filename: "buradaki isim" ne yazılıysa index.html kısmında da o yazılır.
+
+2 = package.json > scripts altında kurulan "dev" ve "build" kısımlarından birini kullanabilirsin çünkü 
+    "dev" =  geliştirme aşamasında, "build" = "üretim/sunma" aşamasında kullanılır 
+    eğer ki live-server kurulu ise direkt olarak bunu da kullanabilirsin ama webpack-dev-server kurmak daha mantıklı da olabilir
+    çünkü o da live-server gibidir 
+
+3 => package.json > scripts altında kurulan "start" kavramında dev depensive kısmna ilk başta webpack-dev-server kurulması lazım
+     bunun amacı live-server gibi yaptığımız her değişikliği algılasın diye yani olay şu webpack'in live server'î aslında 
+     webpack-live-server ve böylece scripts altında "dev" veya "build" kısımlarından birini ister kullan ister kullanma sana kalmış
+    

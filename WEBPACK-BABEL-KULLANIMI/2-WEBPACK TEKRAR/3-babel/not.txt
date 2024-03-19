@@ -1,0 +1,76 @@
+//===babel ne için kullanılır
+
+ Babel, JavaScript kodlarını eski tarayıcılarla uyumlu hale getirmek veya 
+ daha yeni JavaScript özelliklerini kullanarak kodunuzu yazmanıza olanak tanır.
+ Bu nedenle, Babel genellikle "JavaScript derleyicisi" veya "transpiler" olarak adlandırılır.
+
+ ÖRNEKLER = 
+   1:ES6+ (ECMAScript 2015 ve sonrası) Dönüşümü 
+    = Babel, daha yeni JavaScript sözdizimini desteklemeyen eski tarayıcılarda çalışabilmesi 
+      İçin ES6+ kodunu ES5'e (veya daha eski bir sürüme) dönüştürür. Bu, geliştiricilerin 
+      Modern JavaScript dil özelliklerinden yararlanmalarını ve hedef platformlarında sorunsuz çalışmasını sağlar.
+
+   2: Modülerlik Desteği 
+    = Babel, ECMAScript modülerlik standartlarını (CommonJS, AMD, UMD, SystemJS gibi) 
+      Desteklemeyen tarayıcılarda modüler JavaScript kodlarını çalıştırmak için kullanılabilir. 
+      Bu, geliştiricilerin modüler kodu daha eski tarayıcılarda da kullanmalarına olanak tanır.
+
+   3: Daha Yeni JavaScript Özelliklerinin Kullanımı
+    = Babel, henüz tüm tarayıcılar tarafından desteklenmeyen veya tamamen implemente edilmemiş 
+      Olan daha yeni JavaScript özelliklerini kullanmanıza olanak tanır. Bu, geliştiricilerin en son 
+      Dil özelliklerinden yararlanarak kodlarını daha verimli ve okunabilir hale getirmelerini sağlar.
+
+   4: Diğer Derlemeler
+    = Babel, JavaScript dışındaki dilleri de (örneğin, TypeScript, JSX) JavaScript'e dönüştürmek için kullanılabilir. 
+      Bu, farklı dil ve sözdizimi yapılarını birbirine dönüştürerek, farklı dilleri kullanmayı 
+      Tercih eden geliştiriciler arasında uyumluluk sağlar.
+
+
+//=== babel kullanımı 
+
+1.adım = terminal kısmında "npm install --save-dev babel-loader @babel/core" yaz
+
+2.adım = webpack.config.js kısmına gel bunu yaz
+  module: {
+    rules: [
+      {
+        test: /\.m?js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
+      }
+    ]
+  }
+
+3.adım = "babel.config.json" adında dosya oluştur
+
+4.adım = tekrar terminal kısmına "npm install @babel/preset-env --save-dev" yaz
+
+5.adım = "babel.config.json" kısmı içersine gel
+
+{
+  "presets": ["@babel/preset-env"]
+}
+
+6.adım = nasıl çalıştırılır 
+
+ src>js altındaki script.js kısmına yazılır 
+        Ardında da terminal kısmına "npm run start" denir çünkü webpack-dev-server kurulumu ordadır!
+
+
+//== async-await nasıl kullanılır? 
+
+1.adım = terminal kısmına "npm install babel-polyfill --save" diyoruz 
+         "--save" => package.json>altında "dependencies" kısmına kuracak!
+  
+2.adım = webpack.config.js kısmında entry kısmına geliyoruz 
+
+  önceki entry kullanımı:
+    -> entry: "./src/js/script.js"
+  
+  şimdi kulanılan entry:
+    -> entry: ["babel-polyfill", "./src/js/script.js"]

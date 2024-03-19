@@ -1,0 +1,29 @@
+//==== dist altında dinamik olarak bir index.html dosyası oluşturma
+ 1.adım = ilk başta indirmemiz gereken paket ismi "html-webpack-plugin"  indirmemiz gerekiyor tabi bunu 
+          "npm install html-webpack-plugin" indirilir bunu da terimnal kısmına yazılır.
+          (eğer ki indirirken sonuna "--save-dev" dersen devDepens kısmına kurar yani geliştirme aşamasına kurar)
+          (eğer ki indirirken sonuna "--global veya -g" dersen globak olarak bilgisayara kurar)
+
+ 2.adım = webpack.config.js kısmında 
+ const HtmlWebpackPlugin = require("html-webpack-plugin");
+ module.exports = {
+   = "plugins" kısmında bunu kuruyoruz zaten ardında da yukarıdaki require kısmı otomatik oluşturuyor 
+      burada dist altında bize bir html dosyası açmıyor ama package.json kısmında tanımlamış olduğumuz yerde terminal kısmında 
+      "npm run start" dersek eğer ki bize bir server açar
+   plugins: [ 
+     new HtmlWebpackPlugin({})
+  ]
+
+ }
+
+ 3.adım = src klasör altında bir index.html şeması yani(layout) oluşturulduğunda otmatik olarak dist altında 
+          index.html kısmı oluşturulur! arında da webpack.config.js kısmında plugins altındadki yerde 
+
+   plugins: [ 
+     new HtmlWebpackPlugin({
+      filename: "index.html", => oluşturulacak sayfanın ismini yazıyoruz
+      template: "./src/index.html" => template yerini seçiyoruz yani bunu oluşturmuştuk sadece burada template olarak alıyoruz.
+     }) => eğer ki filename'den gelen isim template'den gelen isimle aynı değilse hata verebilir unutma!!!
+  ]
+
+    
